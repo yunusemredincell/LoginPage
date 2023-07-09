@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page </title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+<style>
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 45px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: white
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  label[for="username"] {
+    color: white;
+  }
+  label[for="title"] {
+    color: white;
+  }
+  
+  label[for="password"] {
+    color: white;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 6px;
+    border-radius: 10px;
+  }
+  body {
+    background-position: center center ;
+    background-image: url("logo.avif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    
+  }
+  
+  button[type="button"] {
+    display: block;
+    width: 105%;
+    padding: 15px;
+    background-color: #904caf;
+    color: #ffffff;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+</style>
+<script>
+  // callAPI function that takes the base and exponent numbers as parameters
+  var callAPI = (username,password)=>{
+      // instantiate a headers object
+      var myHeaders = new Headers();
+      // add content type header to object
+      myHeaders.append("Content-Type", "application/json");
+      // using built in JSON utility package turn object to string and store in a variable
+      var raw = JSON.stringify({"username":username,"password":password});
+      // create a JSON object with parameters for API call and store in a variable
+      var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+      };
+      // make API call with parameters and use promises to get response
+      fetch("https://y7t89npql9.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+      .then(response => response.json())
+      .then(result => alert(result.body))
+      .catch(error => console.log('error', error));
+  }
+</script>
+</head>
+<body>
+  <div class="container">
+    <h2>Login Page</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="button" onclick="callAPI(document.getElementById('username').value, document.getElementById('password').value)">Login</button>
+    </form>
+  </div>
+
+</body>
+</html>
